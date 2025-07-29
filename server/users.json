@@ -1,0 +1,109 @@
+[
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "40c6775fca4862762a2752757d6f0fc3:c5e6da201cb1944178a7e60b9fc23ca5033b0485b2062fcfff1a6203bc658fb5",
+    "password": "$2b$10$lhkyBf4hgAAVIcvOE/6Mye1.QKgpCTGwev2Xjx8VzKrW/2tQ1KvW6",
+    "id": 1,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-07-27T15:09:04.740Z",
+    "email_encrypted": "f7959aa97ffd79a522adc9629efc3c5e:2e9f31c1f7776f445ec02ead25133b0e20b15ba270f905178b0c86159b2427123d1dc936f1bf826f7bd352283763c53647f2430755abbf4f4c3f8d686c34aa174473bb4d3b0087dc256145f0596570d288f66903e621d4ce9ea240de8503529f5347756a2c6977599b59c5c11080a47b"
+  },
+  {
+    "username": "abdulmannan32519@gmail.com",
+    "fullName": "Anees-ur-Rehman",
+    "email": "0c94b089ef06164c1ade7e186d5edc5c:3d153422fdb9b2ca4534c21f4e015598af397be5de459d500de4493f27520267",
+    "password": "$2b$10$4ABJBB9bUOYHvLJn1FMPlehJHi6I8lnGRRuGmdYhWTSmfb2dIlzQm",
+    "id": 2,
+    "role": "student",
+    "isVerified": true,
+    "degreeProgram": "BSIT",
+    "subjects": [
+      "CS301 - Data Structures",
+      "IT201 - Networking Basics"
+    ],
+    "createdAt": "2025-07-27T15:22:27.240Z",
+    "email_encrypted": "c94079664e26ffc9bc1d004ab7dbe0ae:44ef5779bab2f684142b5ee9b3e6a0cd055b28e3f10707e97b0731a0e7aa5c51b40163b4da50ec4ab45e1cf5d976c43e896a49a6c7c217ec8414dba32d9e3b054b61a671ba1de0efbaf983c6f4fb11c18eb93a23ccf2fccc225faeda8a3a2bda5aff87f5f53f4db77c762a7e2c5c0425"
+  },
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "006acf308d52bebc313b0e3b3059c384:6a000248cfb32bfe206be6177366914cdf115fd296d7c2467c027cacf32dac17",
+    "password": "$2b$10$f1O9g9GhFOE5G/PEmH7MrelXqucqOKu35j7sUY.2ug4QiKqMlY8ka",
+    "id": 3,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-07-27T17:10:40.322Z",
+    "email_encrypted": "114d931e80c4d45442466bbb0a46642e:b74bb3944173d968c44d221d34100b80fb9ed79e53850808fb8be1d2b83b3681ec5ad0c98703e790658bfb19920ca2e3fe6f6fce4c10343d1bef4cc1d1c6a758ac9ec74dbf98babc1de4dc544a7d89ec47eaf731101084efcc18b9f474a3749442e8f19e3cd4dca649e4edcfa6c5d584"
+  },
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "cd673c7757108bda87313a40918121e6:4949875beaf15a0e2a89a1c100a85c5b1a8984216337f4c58196b278b3e96e54",
+    "password": "$2b$10$yPLBwzWkPlK2/hhA1ecuxetslVpn3mONO4HFa2pWOMEOk1.hzeAJO",
+    "id": 4,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-07-27T17:13:52.939Z",
+    "email_encrypted": "b8b786c8dc6fb9ba4c9c70414430aaf7:ef5ed9acafad7c5bcde44f2a0674c063a676a1a5378efe80a364535c05611288f4f5474dbff9ac2689b6b0af5f78753e978a7b9e4c5cca9b5d44eabf0e0707307dcc0b21734ab2b1379eba136c418904a00429d2fcb8627e29e3cc981dd648abafd331ccf0350087f2e1009e36dbca03"
+  },
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "cd848331f9712d1e4f54f0aba4d5fc5d:477075035e6b29e73ae95dc520305769659dc37aa1aad1559df0963334971de5",
+    "password": "$2b$10$q4SrDA68ebnszBRN9ZvnnekKFjsSP9zGyTFfriiUhOj5SRXrqUezS",
+    "id": 5,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-07-27T17:16:23.202Z",
+    "email_encrypted": "dddbc2fc95bfc522adf03c864b70730b:760be24f8b810878895f2d6a1cf6b894e495793e155b9c7d81d1d768eafeb8cbb90da151ae186a2232904dbed0b0cb4efa6b80777ecb8d977b967a96e68edbd918059936b80399a7a4fd62da01d0df45f12ff0dc721b4d1a4bc91a97638a441b6866d128760343273ca6affe06b0596e"
+  },
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "36f18d61ab53cb3f9866ab02baa338e9:795d85440c33dc7da425fde66228c57c60b2f5e0939bb82b62717f5944f76e29",
+    "password": "$2b$10$CaN27XarULN7LoVI9/pc6OsbQgNEV/eBN48uKDRiLlcgpqCfkJykG",
+    "id": 6,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-07-27T17:28:26.231Z",
+    "email_encrypted": "7f7d716ed06dada2ba8a8492dfc8477f:aac49a51580b130f6c22675ac6026b0fb89bfea6c400122a7c6c221d951badc7020593f62ea0e3d31ed7a6444f275722c0c0c0766fa0641ba7c05e8a9ce3d2ed499d186a1e114c1850dc9200d88b45d53087fcfd284266bf8b3b24dbf6861dd5c984c0e45da781b9d9836c318cde83b1"
+  },
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "03e5e5e33457025cf541a3787b04696a:fd9841b3139b0c519d6bd8ed475e8488fb1bdf43ea297ee6d25720705fac7256",
+    "password": "$2b$10$2fiRCIEzXi9Vhfg3v1sv1uNwSg2oUSSPPIzu3dmsH6jL9CG/JAvpu",
+    "id": 7,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-07-27T17:31:50.746Z",
+    "email_encrypted": "11fedaf160d99aa9d347e33c0af5605a:9a892d8a505860785ccb1c8d67a370e75ed6547c561e9fc3ff6f14e507d9cf1fa25c44372f6eb7a87514e0c20ed652b360f9573991d4798241d2c1562af28b97da1ea77fb2e6a462c5b158da30c2fcb76022d788161a74b98d4521c98d586d0cd9463fd4f992e8c7fcd8643704f4f14f"
+  },
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "4cbd5f8a4c8d3ac2b0460f587d9717b9:376821f0fc4dfb4a3cc1e3e84efc9797e0efe188bd052f885ecef65c29be848a",
+    "password": "$2b$10$8ZHQOJTivq/bioT4XMj3guiwbBmeP6FZGx2C1T4zmdR6Zc/pvusxS",
+    "id": 8,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-07-27T17:36:14.007Z",
+    "email_encrypted": "e741d3ca02ba8284a1292cc0c232b6fd:4c00f89afe2b36048418457550df03f0b658b9b9d28f588d2cbee860ef3d986b27480718f42d7202158bec800379aadfb9f12c9f3974b9e1a7c3b870cf8c8b65628c07cc892f423659090e7df7dc926a453b1232fb0af2bba23df19ed9f7efac392b7bc4e47c3b50c0927075bd04bbe5"
+  }
+]

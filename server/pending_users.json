@@ -1,0 +1,65 @@
+[
+  {
+    "username": "abdulmannan",
+    "fullName": "Anees-ur-Rehman",
+    "email": "d8bf119bb314b33000dbaf9c51f41a38:0589270403db844bff6f60231e6bc49a530821876f59ad75cf01640500bc3f28",
+    "password": "$2b$10$5xrdz8wLZcSQ.Coj099Wzens3PW6ZSpRqJ4UGANUKVwzQNI6VNGZC",
+    "id": 1,
+    "createdAt": "2025-07-28T18:55:21.705Z",
+    "email_encrypted": "1a632c5625e20d6d093d31357db43f38:96dae01e4a93399d7a8c2f832d12cd3b51d7fd33d8b5978131b1fd552401b0ee4f4fe72cc4547fe76cfbe317ada1a4be96ac10424d272e204a2237fbb2b60a0325551f48f8a3a7d62122d132b4dc22124a3390c8d4bbd9533ed5600d8110324d9772ef163a7610ac712497243d4fde60"
+  },
+  {
+    "username": "abdulmannan",
+    "fullName": "Anees-ur-Rehman",
+    "email": "4f69c54dcd3ba3ac9f8c16478e6b91ce:a1c565dcb0fa1d49a2990d7571d0e136ba940b3b352c8e110ce6b75ec1bbdefd",
+    "password": "$2b$10$d21nfCG/q47LMWjwvXyj0.8d8xGgDp8WDN9C7GgAG6DvpP365OCY2",
+    "id": 2,
+    "createdAt": "2025-07-28T18:55:36.525Z",
+    "email_encrypted": "5f2c7e6194a3243e2939b5b01ac9f888:48b884938f196c57fbd3f170c34f8d45249b477cbd40fcc7685e5f894bcba0a384fa84c0de42a6cd06cfde3cf51987bd61efbbf22e479c00ee57cc8b4b24ff3365778c9581063c9e49567b153ecf9697c8de704ac4ea93b3ed8ba43dfa22875511246fa3d6d7ac16b3244f529fa5b42d"
+  },
+  {
+    "username": "abdulmannan",
+    "fullName": "Anees-ur-Rehman",
+    "email": "43ac85c3e21233866612284e0e4b8046:106b02fac2041f7751ce4f255ce0fcbf327298d89bbf6fec6fd0e5dfc9c10abb",
+    "password": "$2b$10$wZtqbzZKxcoSRNKTH93Jw./R8/piOngOhDXwJJl2cmE27DGOjxMw.",
+    "id": 3,
+    "createdAt": "2025-07-28T18:57:30.074Z",
+    "email_encrypted": "5cb6353c6afa96d21d01bed2c2a221bf:7cd1b6e0c38e60267b829a01d6cb9b938f85302316da68823edf6b25df9d1aac6146831512d5dff3c7b66b9b64991986b15f4a4b1e5fe4834de59a9c81b434a50aea484bd2dddfa848d274993d860212448689c77a6408f4b07bae51adc47b61f6177031daeb5316620b92ac7a098671"
+  },
+  {
+    "username": "abdulmannan",
+    "fullName": "Anees-ur-Rehman",
+    "email": "31bc13c8679a5e504e69958f26cdc5b9:f1b96a7c60e8243c4845577a9b1530542588e51ee7dad3ef5589a17e69faaf53",
+    "password": "$2b$10$BKXYcBcej4Dia1OoBhv7JuKJMzGiJZTnjP50yQNvyEDeOyPKuaE.W",
+    "id": 4,
+    "createdAt": "2025-07-28T19:24:56.085Z",
+    "email_encrypted": "27d000029f19512242618b21e5a1beb2:441ba1fb9684f5d8498bd0c2dfb085b5a57b1ad3bd0b1d4bf7ce8f2da95bb3e3526c949d12b6e03439957c4eee5679d9cfecc6ba35c89720726d365804df0af3debfc04826aed571575b41cd9bdca1835dd966489c9ce6f2ceec30eab71813bcc8fcf025dcf3d25b5630ec41ec8e7742"
+  },
+  {
+    "username": "abdulmann",
+    "fullName": "Anees-ur-Rehman",
+    "email": "bc240425498@vu.edu.pk",
+    "password": "$2b$10$8hFySxe3sV9wK2j8RIXeqeJtbKzDX9VvvXuUre5gw3zOrwLrLGWF6",
+    "id": 5,
+    "createdAt": "2025-07-28T19:26:40.799Z",
+    "email_encrypted": "d50e189227a1d300837d8e64b49281ac:d1876151a245ded61ba14591a7ba5f449f83c345ef7074d6e972c261bba5f73a"
+  },
+  {
+    "username": "abdulma",
+    "fullName": "Anees-ur-Rehman",
+    "email": "bc240425490mam@vu.edu.pk",
+    "password": "$2b$10$ZnufClciocXT7XuUbxmDPuuuL2MtXPxhtSe2QOl3i6hBW.mAVomeS",
+    "id": 6,
+    "createdAt": "2025-07-28T19:56:43.783Z",
+    "email_encrypted": "e49cce41f99a39a97d980a0a2dc8212c:41add2e4b995e81434bff8231e770e75fc9354db6d43fbe47597fbe464243e7f"
+  },
+  {
+    "username": "abdulma",
+    "fullName": "Abdul Mannan",
+    "email": "bc240425490@vu.edu.pk",
+    "password": "$2b$10$hYpS9m2t36eErCi5OdqPp.43QV3ANubQHnN.EjcVXMpJG4Un..I62",
+    "id": 7,
+    "createdAt": "2025-07-29T05:34:25.654Z",
+    "email_encrypted": "123f6f92b79326a5a52ca00961956869:4baea92f9859c0c63cfe72b6eb344c43973f22a79ec97650b2105124f99695cd"
+  }
+]
