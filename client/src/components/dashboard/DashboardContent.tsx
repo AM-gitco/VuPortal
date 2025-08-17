@@ -4,9 +4,9 @@ import { UploadArea } from "./pages/UploadArea";
 import { Solutions } from "./pages/Solutions";
 import { Discussions } from "./pages/Discussions";
 import { Announcements } from "./pages/Announcements";
-import { AiChat } from "./pages/AiChat";
+import AiChat from "./pages/AiChat";
 import { Badges } from "./pages/Badges";
-import { About } from "./pages/About";
+import About from "./pages/About";
 
 interface DashboardContentProps {
   user: any;
@@ -29,11 +29,11 @@ export function DashboardContent({ user, activePage }: DashboardContentProps) {
       case "solutions":
         return <Solutions user={user} />;
       case "ai-chat":
-        return <AiChat user={user} />;
+        return <AiChat />;
       case "badges":
         return <Badges user={user} />;
       case "about":
-        return <About user={user} />;
+        return <About />;
       case "team":
         return <div className="p-8 text-center"><h2 className="text-2xl font-bold">Our Team - Coming Soon</h2></div>;
       case "exam-chat":

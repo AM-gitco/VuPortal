@@ -2,12 +2,12 @@ import { ReactNode } from 'react';
 import { Request } from 'express';
 
 // Define route types
-export type Route = {
+export type AppRoute = {
   path: string;
   component: (props: any) => ReactNode; // Updated to accept props
   layout?: string;
   exact?: boolean;
-  routes?: Route[];
+  routes?: AppRoute[];
 };
 
 // Import page components
@@ -25,7 +25,7 @@ import AuthPage from '@/pages/auth';
 import NotFound from '@/pages/not-found';
 
 // Define routes configuration
-export const routes: Route[] = [
+export const routes: AppRoute[] = [
   {
     path: '/auth',
     component: AuthPage,
@@ -107,9 +107,9 @@ export const routes: Route[] = [
 ];
 
 // Helper function to get all routes flattened
-export const getAllRoutes = (): Route[] => {
-  const flattenRoutes = (routeList: Route[], parent?: Route): Route[] => {
-    return routeList.reduce((acc: Route[], route: Route) => {
+export const getAllRoutes = (): AppRoute[] => {
+  const flattenRoutes = (routeList: AppRoute[], parent?: AppRoute): AppRoute[] => {
+    return routeList.reduce((acc: AppRoute[], route: AppRoute) => {
       const newRoute = { ...route };
       if (parent) {
         newRoute.path = `${parent.path}${route.path}`;
