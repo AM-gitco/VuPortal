@@ -105,5 +105,17 @@
     "subjects": null,
     "createdAt": "2025-07-27T17:36:14.007Z",
     "email_encrypted": "e741d3ca02ba8284a1292cc0c232b6fd:4c00f89afe2b36048418457550df03f0b658b9b9d28f588d2cbee860ef3d986b27480718f42d7202158bec800379aadfb9f12c9f3974b9e1a7c3b870cf8c8b65628c07cc892f423659090e7df7dc926a453b1232fb0af2bba23df19ed9f7efac392b7bc4e47c3b50c0927075bd04bbe5"
+  },
+  {
+    "username": "admin",
+    "fullName": "Admin User",
+    "email": "abdulmannan32519@gmail.com",
+    "password": "$2b$10$uah9K4SIq9bqKRtocbOeW.Ym6mq99rFUvRD3KKoQprzuw./i5n/pW",
+    "id": 9,
+    "role": "admin",
+    "isVerified": true,
+    "degreeProgram": null,
+    "subjects": null,
+    "createdAt": "2025-08-16T12:55:27.306Z"
   }
 ]

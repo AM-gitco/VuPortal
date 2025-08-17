@@ -29,16 +29,23 @@ import { config } from './config';
 import { MongoDBStorage } from './mongodb';
 import { JsonStorage } from './json_storage';
 
-let storage: IStorage;
+let storagePromise: Promise<IStorage>;
 
-// Initialize storage with MongoDB if configured, with fallback to JsonStorage
-if (config.USE_MONGODB && config.MONGODB_URI) {
-  const jsonStorage = new JsonStorage(); // Create fallback storage
-  storage = new MongoDBStorage(jsonStorage);
-  console.log('Using MongoDB storage with JsonStorage fallback');
-} else {
-  storage = new JsonStorage();
-  console.log('Using JsonStorage (no MongoDB configured)');
+async function initializeStorage(): Promise<IStorage> {
+  if (config.USE_MONGODB && config.MONGODB_URI) {
+    // Note: If you want async initialization for MongoDBStorage, you'd apply a similar pattern.
+    // For now, assuming MongoDBStorage constructor is synchronous.
+    const jsonStorage = await JsonStorage.create(); // Create fallback storage
+    const storage = new MongoDBStorage(jsonStorage);
+    console.log('Using MongoDB storage with JsonStorage fallback');
+    return storage;
+  } else {
+    const storage = await JsonStorage.create();
+    console.log('Using JsonStorage (no MongoDB configured)');
+    return storage;
+  }
 }
 
-export { storage };
+storagePromise = initializeStorage();
+
+export { storagePromise as storage };

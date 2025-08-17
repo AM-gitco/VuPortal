@@ -18,100 +18,53 @@ export class JsonStorage implements IStorage {
   private pendingUsers: PendingUser[] = [];
   private otpCodes: OtpCode[] = [];
 
-  private encrypt(text: string): string {
-    const key = Buffer.from(process.env.ENCRYPTION_KEY || '', 'base64');
-    if (!process.env.ENCRYPTION_KEY) {
-      console.error('[ENCRYPTION_KEY ERROR] ENCRYPTION_KEY not set in environment. Please add ENCRYPTION_KEY (32-byte Base64) to your .env file. You can generate a secure key using: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'base64\'))"');
-      throw new Error('ENCRYPTION_KEY not set in environment.');
-    }
-    if (key.length !== 32) {
-      console.error('[ENCRYPTION_KEY ERROR] ENCRYPTION_KEY must be a 32-byte Base64 string.');
-      throw new Error('ENCRYPTION_KEY must be a 32-byte Base64 string.');
-    }
-    const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    let encrypted = cipher.update(text);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return iv.toString('hex') + ':' + encrypted.toString('hex');
+
+  private constructor() {}
+
+  public static async create(): Promise<JsonStorage> {
+    const storage = new JsonStorage();
+    await storage.loadData();
+    await storage.initializeAdminUser();
+    return storage;
   }
 
-  private decrypt(text: string): string {
-    const key = Buffer.from(process.env.ENCRYPTION_KEY || '', 'base64');
-    if (!process.env.ENCRYPTION_KEY) {
-      console.error('[ENCRYPTION_KEY ERROR] ENCRYPTION_KEY not set in environment. Please add ENCRYPTION_KEY (32-byte Base64) to your .env file. You can generate a secure key using: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'base64\'))"');
-      throw new Error('ENCRYPTION_KEY not set in environment.');
-    }
-    if (key.length !== 32) {
-      console.error('[ENCRYPTION_KEY ERROR] ENCRYPTION_KEY must be a 32-byte Base64 string.');
-      throw new Error('ENCRYPTION_KEY must be a 32-byte Base64 string.');
-    }
-    const [ivStr, encryptedStr] = text.split(':');
-    const iv = Buffer.from(ivStr, 'hex');
-    const encryptedText = Buffer.from(encryptedStr, 'hex');
-    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
-    let decrypted = decipher.update(encryptedText);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
-    return decrypted.toString();
-  }
-
-  constructor() {
-    this.loadData();
-    this.initializeAdminUser();
-  }
-
-  private loadData() {
+  private async loadData() {
     try {
-      const usersData = fs.readFileSync(USERS_FILE, 'utf8');
-      this.users = JSON.parse(usersData).map((user: any) => ({
-        ...user,
-        email: user.email,
-        email_encrypted: user.email_encrypted || this.encrypt(user.email)
-      }));
+      const usersData = await fs.promises.readFile(USERS_FILE, 'utf8');
+      this.users = JSON.parse(usersData);
     } catch (error) {
       this.users = [];
     }
 
     try {
-      const pendingData = fs.readFileSync(PENDING_USERS_FILE, 'utf8');
-      this.pendingUsers = JSON.parse(pendingData).map((p: any) => ({
-        ...p,
-        email: p.email,
-        email_encrypted: p.email_encrypted || this.encrypt(p.email)
-      }));
+      const pendingData = await fs.promises.readFile(PENDING_USERS_FILE, 'utf8');
+      this.pendingUsers = JSON.parse(pendingData);
     } catch (error) {
       this.pendingUsers = [];
     }
 
     try {
-      const otpData = fs.readFileSync(OTP_CODES_FILE, 'utf8');
-      this.otpCodes = JSON.parse(otpData).map((o: any) => ({
-        ...o,
-        email: o.email,
-        email_encrypted: o.email_encrypted || this.encrypt(o.email)
-      }));
+      const otpData = await fs.promises.readFile(OTP_CODES_FILE, 'utf8');
+      this.otpCodes = JSON.parse(otpData);
     } catch (error) {
       this.otpCodes = [];
     }
   }
 
-  private saveData() {
-    // Store both plain and encrypted emails for users and pending users
-    const encryptedUsers = this.users.map(user => ({ ...user, email: user.email, email_encrypted: user.email_encrypted || this.encrypt(user.email) }));
-    const encryptedPending = this.pendingUsers.map(p => ({ ...p, email: p.email, email_encrypted: p.email_encrypted || this.encrypt(p.email) }));
-    const encryptedOtps = this.otpCodes.map(o => ({ ...o, email: o.email, email_encrypted: o.email_encrypted || this.encrypt(o.email) }));
-    fs.writeFileSync(USERS_FILE, JSON.stringify(encryptedUsers, null, 2));
-    fs.writeFileSync(PENDING_USERS_FILE, JSON.stringify(encryptedPending, null, 2));
-    fs.writeFileSync(OTP_CODES_FILE, JSON.stringify(encryptedOtps, null, 2));
+  private async saveData() {
+    await fs.promises.writeFile(USERS_FILE, JSON.stringify(this.users, null, 2));
+    await fs.promises.writeFile(PENDING_USERS_FILE, JSON.stringify(this.pendingUsers, null, 2));
+    await fs.promises.writeFile(OTP_CODES_FILE, JSON.stringify(this.otpCodes, null, 2));
   }
 
-  private initializeAdminUser() {
+  private async initializeAdminUser() {
     const adminEmail = 'abdulmannan32519@gmail.com';
-    const existingAdmin = this.getUserByEmail(adminEmail);
+    const existingAdmin = await this.getUserByEmail(adminEmail);
     
     if (!existingAdmin) {
       const hashedPassword = bcrypt.hashSync('Mannamkhan@786', 10);
       
-      this.createAdminUser({
+      await this.createAdminUser({
         username: 'admin',
         fullName: 'Admin User',
         email: adminEmail,
@@ -147,10 +100,9 @@ export class JsonStorage implements IStorage {
       degreeProgram: null,
       subjects: null,
       createdAt: new Date(),
-      email_encrypted: this.encrypt(insertUser.email)
     };
     this.users.push(user);
-    this.saveData();
+    await this.saveData();
     return user;
   }
 
@@ -166,7 +118,7 @@ export class JsonStorage implements IStorage {
       createdAt: new Date(),
     };
     this.users.push(user);
-    this.saveData();
+    await this.saveData();
     return user;
   }
 
@@ -174,7 +126,7 @@ export class JsonStorage implements IStorage {
     const index = this.users.findIndex(user => user.id === id);
     if (index === -1) return undefined;
     this.users[index] = { ...this.users[index], ...updates };
-    this.saveData();
+    await this.saveData();
     return this.users[index];
   }
 
@@ -190,10 +142,9 @@ export class JsonStorage implements IStorage {
       password: hashedPassword,
       id,
       createdAt: new Date(),
-      email_encrypted: this.encrypt(insertPendingUser.email)
     };
     this.pendingUsers.push(pendingUser);
-    this.saveData();
+    await this.saveData();
     return pendingUser;
   }
 
@@ -204,7 +155,7 @@ export class JsonStorage implements IStorage {
 
   async deletePendingUser(email: string): Promise<void> {
     this.pendingUsers = this.pendingUsers.filter(p => p.email !== email);
-    this.saveData();
+    await this.saveData();
   }
 
   async createOtpCode(insertOtp: InsertOtp): Promise<OtpCode> {
@@ -216,7 +167,7 @@ export class JsonStorage implements IStorage {
       createdAt: new Date(),
     };
     this.otpCodes.push(otpCode);
-    this.saveData();
+    await this.saveData();
     return otpCode;
   }
 
@@ -234,13 +185,13 @@ export class JsonStorage implements IStorage {
     const index = this.otpCodes.findIndex(o => o.id === id);
     if (index !== -1) {
       this.otpCodes[index].isUsed = true;
-      this.saveData();
+      await this.saveData();
     }
   }
 
   async cleanupExpiredOtps(): Promise<void> {
     const now = new Date();
     this.otpCodes = this.otpCodes.filter(o => o.expiresAt > now);
-    this.saveData();
+    await this.saveData();
   }
 }

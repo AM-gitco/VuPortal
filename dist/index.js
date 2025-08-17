@@ -233,7 +233,7 @@ var __dirname2 = path2.dirname(__filename);
 var USERS_FILE = path2.join(__dirname2, "users.json");
 var PENDING_USERS_FILE = path2.join(__dirname2, "pending_users.json");
 var OTP_CODES_FILE = path2.join(__dirname2, "otp_codes.json");
-var JsonStorage = class {
+var JsonStorage = class _JsonStorage {
   users = [];
   pendingUsers = [];
   otpCodes = [];
@@ -272,12 +272,16 @@ var JsonStorage = class {
     return decrypted.toString();
   }
   constructor() {
-    this.loadData();
-    this.initializeAdminUser();
   }
-  loadData() {
+  static async create() {
+    const storage2 = new _JsonStorage();
+    await storage2.loadData();
+    await storage2.initializeAdminUser();
+    return storage2;
+  }
+  async loadData() {
     try {
-      const usersData = fs.readFileSync(USERS_FILE, "utf8");
+      const usersData = await fs.promises.readFile(USERS_FILE, "utf8");
       this.users = JSON.parse(usersData).map((user) => ({
         ...user,
         email: user.email,
@@ -287,7 +291,7 @@ var JsonStorage = class {
       this.users = [];
     }
     try {
-      const pendingData = fs.readFileSync(PENDING_USERS_FILE, "utf8");
+      const pendingData = await fs.promises.readFile(PENDING_USERS_FILE, "utf8");
       this.pendingUsers = JSON.parse(pendingData).map((p) => ({
         ...p,
         email: p.email,
@@ -297,7 +301,7 @@ var JsonStorage = class {
       this.pendingUsers = [];
     }
     try {
-      const otpData = fs.readFileSync(OTP_CODES_FILE, "utf8");
+      const otpData = await fs.promises.readFile(OTP_CODES_FILE, "utf8");
       this.otpCodes = JSON.parse(otpData).map((o) => ({
         ...o,
         email: o.email,
@@ -307,20 +311,20 @@ var JsonStorage = class {
       this.otpCodes = [];
     }
   }
-  saveData() {
+  async saveData() {
     const encryptedUsers = this.users.map((user) => ({ ...user, email: user.email, email_encrypted: user.email_encrypted || this.encrypt(user.email) }));
     const encryptedPending = this.pendingUsers.map((p) => ({ ...p, email: p.email, email_encrypted: p.email_encrypted || this.encrypt(p.email) }));
     const encryptedOtps = this.otpCodes.map((o) => ({ ...o, email: o.email, email_encrypted: o.email_encrypted || this.encrypt(o.email) }));
-    fs.writeFileSync(USERS_FILE, JSON.stringify(encryptedUsers, null, 2));
-    fs.writeFileSync(PENDING_USERS_FILE, JSON.stringify(encryptedPending, null, 2));
-    fs.writeFileSync(OTP_CODES_FILE, JSON.stringify(encryptedOtps, null, 2));
+    await fs.promises.writeFile(USERS_FILE, JSON.stringify(encryptedUsers, null, 2));
+    await fs.promises.writeFile(PENDING_USERS_FILE, JSON.stringify(encryptedPending, null, 2));
+    await fs.promises.writeFile(OTP_CODES_FILE, JSON.stringify(encryptedOtps, null, 2));
   }
-  initializeAdminUser() {
+  async initializeAdminUser() {
     const adminEmail = "abdulmannan32519@gmail.com";
-    const existingAdmin = this.getUserByEmail(adminEmail);
+    const existingAdmin = await this.getUserByEmail(adminEmail);
     if (!existingAdmin) {
       const hashedPassword = bcrypt.hashSync("Mannamkhan@786", 10);
-      this.createAdminUser({
+      await this.createAdminUser({
         username: "admin",
         fullName: "Admin User",
         email: adminEmail,
@@ -353,7 +357,7 @@ var JsonStorage = class {
       email_encrypted: this.encrypt(insertUser.email)
     };
     this.users.push(user);
-    this.saveData();
+    await this.saveData();
     return user;
   }
   async createAdminUser(insertUser) {
@@ -368,14 +372,14 @@ var JsonStorage = class {
       createdAt: /* @__PURE__ */ new Date()
     };
     this.users.push(user);
-    this.saveData();
+    await this.saveData();
     return user;
   }
   async updateUser(id, updates) {
     const index = this.users.findIndex((user) => user.id === id);
     if (index === -1) return void 0;
     this.users[index] = { ...this.users[index], ...updates };
-    this.saveData();
+    await this.saveData();
     return this.users[index];
   }
   async updateUserProfile(userId, degreeProgram, subjects) {
@@ -400,7 +404,7 @@ var JsonStorage = class {
   }
   async deletePendingUser(email) {
     this.pendingUsers = this.pendingUsers.filter((p) => p.email !== email);
-    this.saveData();
+    await this.saveData();
   }
   async createOtpCode(insertOtp) {
     const id = this.otpCodes.length > 0 ? Math.max(...this.otpCodes.map((o) => o.id)) + 1 : 1;
@@ -411,7 +415,7 @@ var JsonStorage = class {
       createdAt: /* @__PURE__ */ new Date()
     };
     this.otpCodes.push(otpCode);
-    this.saveData();
+    await this.saveData();
     return otpCode;
   }
   async getValidOtpCode(email, code) {
@@ -426,24 +430,24 @@ var JsonStorage = class {
     const index = this.otpCodes.findIndex((o) => o.id === id);
     if (index !== -1) {
       this.otpCodes[index].isUsed = true;
-      this.saveData();
+      await this.saveData();
     }
   }
   async cleanupExpiredOtps() {
     const now = /* @__PURE__ */ new Date();
     this.otpCodes = this.otpCodes.filter((o) => o.expiresAt > now);
-    this.saveData();
+    await this.saveData();
   }
 };
 
 // server/storage.ts
 var storage;
 if (config.USE_MONGODB && config.MONGODB_URI) {
-  const jsonStorage = new JsonStorage();
+  const jsonStorage = await JsonStorage.create();
   storage = new MongoDBStorage(jsonStorage);
   console.log("Using MongoDB storage with JsonStorage fallback");
 } else {
-  storage = new JsonStorage();
+  storage = await JsonStorage.create();
   console.log("Using JsonStorage (no MongoDB configured)");
 }
 
@@ -892,71 +896,6 @@ Username: ${pendingUser.username}`
   const httpServer = createServer(app2);
   return httpServer;
 }
-router.post("/api/auth/signup", async (req, res) => {
-  try {
-    const { username, fullName, email, password } = req.body;
-    if (!username || !fullName || !email || !password) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-    const existingUser = await storage.getUserByEmail(email);
-    if (existingUser) {
-      return res.status(409).json({ error: "User already exists" });
-    }
-    const existingPending = await storage.getPendingUserByEmail(email);
-    if (existingPending) {
-      return res.status(409).json({ error: "Pending user already exists" });
-    }
-    await storage.createPendingUser({ username, fullName, email, password });
-    res.status(201).json({ message: "Signup successful. Please check your email to activate your account." });
-  } catch (err) {
-    console.error("[SIGNUP ERROR]", err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-router.post("/api/auth/signin", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ error: "Missing email or password" });
-    }
-    const user = await storage.getUserByEmail(email);
-    if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-    const passwordMatch = await bcrypt2.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-    req.session.userId = user.id;
-    res.json({ message: "Login successful", user: { id: user.id, username: user.username, email: user.email, role: user.role } });
-  } catch (err) {
-    console.error("[SIGNIN ERROR]", err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-router.post("/api/auth/activate", async (req, res) => {
-  try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ error: "Missing email" });
-    }
-    const pendingUser = await storage.getPendingUserByEmail(email);
-    if (!pendingUser) {
-      return res.status(404).json({ error: "Pending user not found" });
-    }
-    await storage.createUser({
-      username: pendingUser.username,
-      fullName: pendingUser.fullName,
-      email: pendingUser.email,
-      password: pendingUser.password
-    });
-    await storage.deletePendingUser(email);
-    res.json({ message: "Account activated. You can now log in." });
-  } catch (err) {
-    console.error("[ACTIVATION ERROR]", err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
 
 // server/vite.ts
 import express from "express";
@@ -1125,11 +1064,10 @@ app.use((req, res, next) => {
       next();
     }
   });
-  const port = parseInt(process.env.PORT || "5000", 10);
+  const port = parseInt(process.env.PORT || "3000", 10);
   server.listen({
     port,
-    host: "127.0.0.1",
-    reusePort: true
+    host: "0.0.0.0"
   }, () => {
     log(`serving on port ${port}`);
   });

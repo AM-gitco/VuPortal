@@ -1,12 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import { IStorage } from "./storage";
 import { insertUserSchema, loginSchema, forgotPasswordSchema, otpVerificationSchema, resetPasswordSchema } from "@shared/schema";
 import bcrypt from "bcrypt";
 import express from "express";
 import nodemailer from "nodemailer";
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express, storage: IStorage): Promise<Server> {
   // Helper function to generate 6-digit OTP
   const generateOTP = (): string => {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -423,72 +423,3 @@ export async function registerRoutes(app: Express): Promise<Server> {
   return httpServer;
 }
 
-// // Remove all standalone 'router.post' route definitions at the bottom of the file, as all routes should be registered via the 'registerRoutes' function using 'app.post'.
-router.post('/api/auth/signup', async (req, res) => {
-  try {
-    const { username, fullName, email, password } = req.body;
-    if (!username || !fullName || !email || !password) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
-    const existingUser = await storage.getUserByEmail(email);
-    if (existingUser) {
-      return res.status(409).json({ error: 'User already exists' });
-    }
-    const existingPending = await storage.getPendingUserByEmail(email);
-    if (existingPending) {
-      return res.status(409).json({ error: 'Pending user already exists' });
-    }
-    await storage.createPendingUser({ username, fullName, email, password });
-    res.status(201).json({ message: 'Signup successful. Please check your email to activate your account.' });
-  } catch (err) {
-    console.error('[SIGNUP ERROR]', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-// SIGNIN
-router.post('/api/auth/signin', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Missing email or password' });
-    }
-    const user = await storage.getUserByEmail(email);
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
-    }
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid email or password' });
-    }
-    req.session.userId = user.id;
-    res.json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email, role: user.role } });
-  } catch (err) {
-    console.error('[SIGNIN ERROR]', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-// ACTIVATE
-router.post('/api/auth/activate', async (req, res) => {
-  try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ error: 'Missing email' });
-    }
-    const pendingUser = await storage.getPendingUserByEmail(email);
-    if (!pendingUser) {
-      return res.status(404).json({ error: 'Pending user not found' });
-    }
-    // Move to users
-    await storage.createUser({
-      username: pendingUser.username,
-      fullName: pendingUser.fullName,
-      email: pendingUser.email,
-      password: pendingUser.password
-    });
-    await storage.deletePendingUser(email);
-    res.json({ message: 'Account activated. You can now log in.' });
-  } catch (err) {
-    console.error('[ACTIVATION ERROR]', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
